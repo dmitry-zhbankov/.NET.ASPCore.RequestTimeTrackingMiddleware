@@ -2,55 +2,55 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 using RequestTimeTrackingMiddleware.Models;
 
 namespace RequestTimeTrackingMiddleware.DAL
 {
     public class ProfileRepository:IProfileRepository
     {
-        private List<Profile> profiles;
+        private List<Profile> _profiles;
+
         public ProfileRepository()
         {
-            profiles = new List<Profile>();
-            profiles.Add(new Profile()
+            _profiles = new List<Profile>();
+            _profiles.Add(new Profile()
             {
                 ProfileId=1,
                 Name = "Name 1"
             });
-            profiles.Add(new Profile()
+            _profiles.Add(new Profile()
             {
                 ProfileId = 1,
                 Name = "Name 2"
             });
-            profiles.Add(new Profile()
+            _profiles.Add(new Profile()
             {
                 ProfileId = 1,
                 Name = "Name 3"
             });
         }
+
         public IEnumerable<Profile> Get(Expression<Func<Profile, bool>> filter)
         {
-            var res= profiles.Where(filter.Compile());
+            var res= _profiles.Where(filter.Compile());
             return res;
         }
 
         public Profile GetById(int id)
         {
-            var profile = profiles.Find(x => x.ProfileId == id);
+            var profile = _profiles.Find(x => x.ProfileId == id);
             return profile;
         }
 
         public void Create(Profile entity)
         {
-            profiles.Add(entity);
+            _profiles.Add(entity);
         }
 
         public void Delete(int id)
         {
             var profile = GetById(id);
-            profiles.Remove(profile);
+            _profiles.Remove(profile);
         }
 
         public void Update(Profile entity)

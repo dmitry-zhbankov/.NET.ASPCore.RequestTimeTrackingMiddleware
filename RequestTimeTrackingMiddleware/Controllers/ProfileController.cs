@@ -13,38 +13,46 @@ namespace RequestTimeTrackingMiddleware.Controllers
     [Route("api/[controller]")]
     public class ProfileController : Controller
     {
-        private IProfileRepository repository;
+        private IProfileRepository _repository;
 
         public ProfileController(IProfileRepository repository)
         {
-            this.repository = repository;
+            this._repository = repository;
         }
 
         [HttpGet]
         public IEnumerable<Profile> Get()
         {
-            var profiles = repository.Get(x => true);
+            var profiles = _repository.Get(x => true);
             return profiles;
         }
 
         [HttpGet("{id}")]
-        public Profile Get(int? id)
+        public Profile Get(int id)
         {
-            var profile = repository.GetById((int)id);
+            var profile = _repository.GetById(id);
             return profile;
         }
 
         [HttpPatch]
         public IActionResult Update([FromBody] Profile profile)
         {
-            repository.Update(profile);
+            if (profile == null)
+            {
+                return BadRequest();
+            }
+            _repository.Update(profile);
             return Ok();
         }
 
         [HttpPut]
         public IActionResult Create([FromBody] Profile profile)
         {
-            repository.Create(profile);
+            if (profile==null)
+            {
+                return BadRequest();
+            }
+            _repository.Create(profile);
             return Ok();
         }
 
@@ -55,7 +63,7 @@ namespace RequestTimeTrackingMiddleware.Controllers
             {
                 return BadRequest();
             }
-            repository.Delete((int)id);
+            _repository.Delete((int)id);
             return Ok();
         }
     }

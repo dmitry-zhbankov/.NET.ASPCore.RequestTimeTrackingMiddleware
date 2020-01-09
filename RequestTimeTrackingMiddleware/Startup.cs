@@ -28,7 +28,7 @@ namespace RequestTimeTrackingMiddleware
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddSingleton<IProfileRepository,ProfileRepository>();
+            services.AddSingleton<IProfileRepository, ProfileRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
